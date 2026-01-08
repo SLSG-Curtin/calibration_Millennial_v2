@@ -105,7 +105,7 @@ This document outlines the systematic approach for the calibration of the Millen
 The initial phase focuses on understanding model behavior and identifying the most influential drivers of Carbon (C) dynamics using the PAWN sensitivity analysis method (`SAFER` package).
 
 ### ⚙️ Sensitivity Analysis Workflow
-- **Script**: `d01_src/PAWN_hybrid.R`
+- **Script**: `d01_src/sensitivity_PAWN_hybrid.R`
 - **Key Packages**: `FME`, `deSolve`, `rootSolve`, `SAFER`.
 - **Purpose**: To run the Millennial v2 model across a sampled parameter space to evaluate the sensitivity of Total Soil Organic Matter (SOM).
 
@@ -115,7 +115,7 @@ A Latin Hypercube Sampling (LHS) strategy is used to explore the 24-dimensional 
 - **Strategy**: `AAT_sampling` with `lhs` strategy.
 - **Parameters**: 24 influential parameters (Uniform distribution) including $P_i$, $P_a$, $K_{pl}$, $\alpha_{pl}$, $E\alpha_{pl}$, etc.
 - **Forcing Input**: Global average data.
-  - **File**: `/media/DATADRIVE1/Model/Millennial/Fortran/MillennialV2/simulationv2/globalaverage.txt`
+  - **File**: `./globalaverage.txt`
   - **Structure**: 365-day (1 year) daily time-series.
   - **Columns & Units**:
     - `forc_st`: Soil Temperature (°C)
@@ -129,7 +129,7 @@ The model is executed for each parameter set to reach steady state and then run 
 - **Output**: Extraction of state variables (POM, LMWC, AGG, MIC, MAOM) to compute Total SOM.
 
 ### 📊 Multi-output Sensitivity Analysis
-- **Script**: `d01_src/PAWN_multihybrid.R`
+- **Script**: `d01_src/sensitivity_PAWN_multihybrid.R`
 - **Key Packages**: `SAFER`, `ggplot2`.
 - **Purpose**: To calculate the PAWN sensitivity indices for multiple model outputs and visualize the influential parameters.
 
@@ -178,7 +178,7 @@ The calibration is conducted across three distinct spatial scales to ensure the 
 This initial step optimizes the model parameters to capture the general trends across all 993 rangeland sites.
 
 #### ⚙️ Workflow
-- **Script**: `d01_src/parameters_fit_global.R`
+- **Script**: `d01_src/rangelands_calibration_global.R`
 - **Key Packages**: `FME`, `deSolve`, `rtop`.
 - **Method**: Global optimization using `FME::modFit`.
 - **Initialization**:
@@ -213,13 +213,13 @@ This initial step optimizes the model parameters to capture the general trends a
 This step refines the model by optimizing parameters for specific environmental clusters or bioregions.
 
 #### ⚙️ Workflow
-- **Script**: `d01_src/parameters_fit_clusters.R`
+- **Script**: `d01_src/rangelands_calibration_clusters.R`
 - **Key Packages**: `foreach`, `doParallel`, `FME`, `deSolve`.
 - **Method**: Parallel optimization for bioregional clusters.
 - **Input Data**:
-  - **Cluster Membership**: `d01_data/input/bioclimatic_clusters_new.txt`
-  - **Dynamic Forcing**: `d01_data/rangeland_driving/` (time-varying site-specific data)
-  - **Static Forcing**: `d01_data/rangeland_avg_driving/` (time-invariant site-specific data)
+  - **Cluster Membership**: `d02_data/bioclimatic_clusters_new.txt`
+  - **Dynamic Forcing**: `d02_data/rangeland_driving/` (time-varying site-specific data)
+  - **Static Forcing**: `d02_data/rangeland_avg_driving/` (time-invariant site-specific data)
 
 #### 🎯 Optimization Setup
 - **Sampling Strategy**: Large clusters (e.g., Cluster 25) are split into smaller sub-samples (5 sets of ~39 sites) to ensure computational efficiency and representativeness.
@@ -274,7 +274,7 @@ To evaluate the three calibration sub-scenarios, follow these steps using the R 
    - **Steady-State Solution**: Use `SS.Model.clusters()` function with `stode` solver
    - **Fallback**: If `stode` fails to achieve steady-state, use `ode` solver for 10,000 time steps with constant forcing
    - **Optimization**: Minimize SSE using `Objective.clusters()` with L-BFGS-B algorithm
-   - **Output**: Optimized parameters saved to `/d03_output/clusters_par13_drive/parsets/{cluster}_parset.csv`
+   - **Output**: Optimized parameters saved to `./parsets/{cluster}_parset.csv`
 
 #### 2. **Measured Initialisation Scenario 2**
    - **Initialization**: Use site-specific measured C fractions:
@@ -315,14 +315,14 @@ To evaluate the three calibration sub-scenarios, follow these steps using the R 
 - **Parallel Processing**: Use `foreach` with `doParallel` for cluster-wise optimization (39-43 clusters)
 - **Model Validation**: Check simulated C pools against observed values for each scenario
 - **File Outputs**: 
-  - Parameter sets: `clusters_par13_drive/parsets/{cluster}_parset.csv`
-  - Simulated pools: `clusters_par13_drive/optim_sets/{cluster}_optim_sets.csv`
+  - Parameter sets: `./{cluster}_parset.csv`
+  - Simulated pools: `./{cluster}_optim_sets.csv`
 
 ### 3.3 Site-specific Calibration
 This final calibration step optimizes parameters for each individual site to achieve the highest possible accuracy at the finest spatial scale.
 
 #### ⚙️ Workflow
-- **Script**: `d01_src/rangelands_calibration_hpc_ode.R`
+- **Script**: `d01_src/rangelands_calibration_site.R`
 - **Key Packages**: `rtop`, `deSolve`, `FME`, `foreach`, `doParallel`, `zoo`.
 - **Method**: Individual site optimization using SCE-UA algorithm.
 - **Input Data**:
