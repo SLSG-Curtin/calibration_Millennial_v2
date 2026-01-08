@@ -105,7 +105,7 @@ This document outlines the systematic approach for the calibration of the Millen
 The initial phase focuses on understanding model behavior and identifying the most influential drivers of Carbon (C) dynamics using the PAWN sensitivity analysis method (`SAFER` package).
 
 ### ⚙️ Sensitivity Analysis Workflow
-- **Script**: `d02_script/pre_processing/PAWN_hybrid.R`
+- **Script**: `d01_src/PAWN_hybrid.R`
 - **Key Packages**: `FME`, `deSolve`, `rootSolve`, `SAFER`.
 - **Purpose**: To run the Millennial v2 model across a sampled parameter space to evaluate the sensitivity of Total Soil Organic Matter (SOM).
 
@@ -129,7 +129,7 @@ The model is executed for each parameter set to reach steady state and then run 
 - **Output**: Extraction of state variables (POM, LMWC, AGG, MIC, MAOM) to compute Total SOM.
 
 ### 📊 Multi-output Sensitivity Analysis
-- **Script**: `d02_script/pre_processing/PAWN_multihybrid.R`
+- **Script**: `d01_src/PAWN_multihybrid.R`
 - **Key Packages**: `SAFER`, `ggplot2`.
 - **Purpose**: To calculate the PAWN sensitivity indices for multiple model outputs and visualize the influential parameters.
 
@@ -178,7 +178,7 @@ The calibration is conducted across three distinct spatial scales to ensure the 
 This initial step optimizes the model parameters to capture the general trends across all 993 rangeland sites.
 
 #### ⚙️ Workflow
-- **Script**: `d02_script/onebatch_running/parameters_fit_VR_3_opt_initialization_upd.R`
+- **Script**: `d01_src/parameters_fit_global.R`
 - **Key Packages**: `FME`, `deSolve`, `rtop`.
 - **Method**: Global optimization using `FME::modFit`.
 - **Initialization**:
@@ -213,7 +213,7 @@ This initial step optimizes the model parameters to capture the general trends a
 This step refines the model by optimizing parameters for specific environmental clusters or bioregions.
 
 #### ⚙️ Workflow
-- **Script**: `d02_script/clusters_running/parameters_fit_clusters_new_v3_tune.R`
+- **Script**: `d01_src/parameters_fit_clusters.R`
 - **Key Packages**: `foreach`, `doParallel`, `FME`, `deSolve`.
 - **Method**: Parallel optimization for bioregional clusters.
 - **Input Data**:
@@ -258,7 +258,7 @@ For sub-scenarios 2 and 3, where steady-state could not be achieved using \text{
 
 ### 📋 Evaluation Instructions
 
-To evaluate the three calibration sub-scenarios, follow these steps using the R script `d02_script/clusters_running/parameters_fit_clusters_new_v3_tune.R`:
+To evaluate the three calibration sub-scenarios, follow these steps using the R script /'d01_src/rangelands_calibration_ode.R':
 
 #### 1. **Static Initialisation Scenario 1**
    - **Initialization**: Use uniform initial C fractions across all sites:
@@ -322,7 +322,7 @@ To evaluate the three calibration sub-scenarios, follow these steps using the R 
 This final calibration step optimizes parameters for each individual site to achieve the highest possible accuracy at the finest spatial scale.
 
 #### ⚙️ Workflow
-- **Script**: `d02_script/sitebysite_running/rangelands_calibration_hpc_ode.R`
+- **Script**: `d01_src/rangelands_calibration_hpc_ode.R`
 - **Key Packages**: `rtop`, `deSolve`, `FME`, `foreach`, `doParallel`, `zoo`.
 - **Method**: Individual site optimization using SCE-UA algorithm.
 - **Input Data**:
