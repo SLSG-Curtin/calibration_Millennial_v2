@@ -96,7 +96,7 @@ parToFit.upper.opt <- c(
 pars <- parToFit.VR.opt
 
 newinputs <- read.csv("/media/DATADRIVE1/Model/Millennial/calibration_mm2/d01_data/input/bioclimatic_clusters_new.txt")
-flist <- list.files("/media/DATADRIVE1/Model/Millennial/calibration_mm2/d01_data/rangeland_driving/",full.names = TRUE,recursive = TRUE)
+flist <- list.files("/media/DATADRIVE1/Model/Millennial/calibration_mm2/d01_data/rangeland_daily_driving/",full.names = TRUE,recursive = TRUE)
 basefile_names <- basename(flist)
 isite <- file_path_sans_ext(basefile_names)
 names(newinputs)[4:12] <- c("SOM","MAOM","POM.AGG","SoilTMP.C","SoilMoi.m3m3","NPP.gC.m2.d","qmax.gC.m2","pH_CaCl2","BD.mg.cm3")

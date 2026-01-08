@@ -218,7 +218,7 @@ This step refines the model by optimizing parameters for specific environmental 
 - **Method**: Parallel optimization for bioregional clusters.
 - **Input Data**:
   - **Cluster Membership**: `d02_data/bioclimatic_clusters_new.txt`
-  - **Dynamic Forcing**: `d02_data/rangeland_driving/` (time-varying site-specific data)
+  - **Dynamic Forcing**: `d02_data/rangeland_daily_driving/` (time-varying site-specific data)
   - **Static Forcing**: `d02_data/rangeland_avg_driving/` (time-invariant site-specific data)
 
 #### 🎯 Optimization Setup
@@ -326,8 +326,8 @@ This final calibration step optimizes parameters for each individual site to ach
 - **Key Packages**: `rtop`, `deSolve`, `FME`, `foreach`, `doParallel`, `zoo`.
 - **Method**: Individual site optimization using SCE-UA algorithm.
 - **Input Data**:
-  - **Site Configuration**: `d01_data/input/continental_input_sites_update.txt`
-  - **Daily Forcing**: `d01_data/rangeland_daily_driving/` (365-day averaged cycles)
+  - **Site Configuration**: `d02_data/continental_input_sites_update.txt`
+  - **Daily Forcing**: `d02_data/rangeland_daily_driving/` (365-day averaged cycles)
 
 #### 🎯 Optimization Setup
 - **Algorithm**: SCE-UA (Shuffled Complex Evolution - University of Arizona) for global optimization.
