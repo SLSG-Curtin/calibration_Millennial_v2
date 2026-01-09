@@ -17,11 +17,11 @@
 
 ---
 
-## 💡 General Principle: Hyperparameter Tuning in Soil C Models
+## 💡 General Principle: Parameter Tuning in Soil C Models
 
-The calibration process follows a logical sequence analogous to parameter estimation in regression models, adapted for complex process-based simulations.
+The calibration process follows a logical sequence analogous to parameter estimation in regression models, adapted for complex process-based parameters tuning.
 
-| Step | Ordinary Least Squares (Linear Regression) | Hyperparameter Tuning (Soil C Model) |
+| Step | Ordinary Least Squares (Linear Regression) | Parameter Tuning (Soil C Model) |
 | :--- | :--- | :--- |
 | **1. Data Collection** | Collect data of $X$ and $Y$ | Collect observational datasets (e.g., soil C observations, environmental drivers) |
 | **2. Model Selection** | Select an equation $Y = \beta_0 + \beta_1 X$ | Select the process-based model (e.g., Millennial v2) |
@@ -115,7 +115,7 @@ A Latin Hypercube Sampling (LHS) strategy is used to explore the 24-dimensional 
 - **Strategy**: `AAT_sampling` with `lhs` strategy.
 - **Parameters**: 24 influential parameters (Uniform distribution) including $P_i$, $P_a$, $K_{pl}$, $\alpha_{pl}$, $E\alpha_{pl}$, etc.
 - **Forcing Input**: Global average data.
-  - **File**: `./globalaverage.txt`
+  - **File**: `d02_data/globalaverage.txt`
   - **Structure**: 365-day (1 year) daily time-series.
   - **Columns & Units**:
     - `forc_st`: Soil Temperature (°C)
@@ -360,7 +360,7 @@ This final calibration step optimizes parameters for each individual site to ach
 To perform site-specific calibration:
 
 1. **Data Preparation**:
-   - Load site configuration from `continental_input_sites_update.txt`
+   - Load site configuration from `d02_data/continental_input_sites_update.txt`
    - Process daily driving data into 365-day averaged cycles
    - Extract site-specific parameters (`qmax`, `pH`) for each location
 
@@ -410,7 +410,7 @@ The following data source table summarizes the soil C fractions, forcing inputs,
 The model requires two types of input files: a site configuration file and daily driving variable files.
 
 #### 1. Site Configuration File
-- **File**: `d01_data/input/continental_input_sites_update.txt`
+- **File**: `d02_data/continental_input_sites_update.txt`
 - **Purpose**: Provides initialization data and site-specific soil properties for each of the 993 rangeland sites.
 - **Columns**:
   - `site`: Unique identifier for the rangeland location.
@@ -425,7 +425,7 @@ The model requires two types of input files: a site configuration file and daily
   - `depth`: Soil depth (m).
 
 #### 2. Daily Driving Data
-- **Location**: `d01_data/rangeland_daily_driving/`
+- **Location**: `d02_data/rangeland_daily_driving/`
 - **Files**: Named by site ID (e.g., `DECCW0061.txt`).
 - **Purpose**: Provides daily time-series forcing data for model simulation.
 - **Columns**:
@@ -451,13 +451,13 @@ The model requires two types of input files: a site configuration file and daily
 
 ## 📂 Appendix
 
-### 🏗️ Millennial Model (MV3)
+### 🏗️ Millennial Model Version 2 (MV2)
 
 #### Daily Soil C Turnover
 
 ```text
 ══════════════════════════════════════════════════════════════════════════════════
-                    MILLENNIAL MODEL (MV3): DAILY SOIL C TURNOVER
+              MILLENNIAL MODEL Version 2 (MV2): DAILY SOIL C TURNOVER
 ══════════════════════════════════════════════════════════════════════════════════
 
 C INPUT
