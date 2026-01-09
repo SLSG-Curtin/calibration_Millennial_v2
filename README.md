@@ -182,7 +182,7 @@ This initial step optimizes the model parameters to capture the general trends a
 - **Key Packages**: `FME`, `deSolve`, `rtop`.
 - **Method**: Global optimization using `FME::modFit`.
 - **Initialization**:
-    1.  **Steady State**: `stode` calculates the equilibrium state for each site.
+    1.  **Steady-State**: `stode` calculates the steady state for each site.
     2.  **Transient Simulation**: `ode` runs the model forward to align with the Observation timestamp.
 
 #### 🎯 Optimization Setup
@@ -205,7 +205,7 @@ This initial step optimizes the model parameters to capture the general trends a
 - **Constraints**: 
   - LMWC/SOM ≤ 0.03 (`rate_lw > 0.03` triggers penalty)
   - MIC/SOM ≤ 0.03 (`rate_mc > 0.03` triggers penalty)
-- **Equilibrium**: Uses `stode` solver for steady-state; fallback to `ode` if needed
+- **Steady-State**: Uses `stode` solver for steady-state; fallback to `ode` if needed
 - **Parallel Processing**: Single batch optimization across all 993 sites
 - **Penalty Handling**: Invalid parameters return `modCost(df_inf, Obs.pools)` where `df_inf` contains 100s
 
@@ -243,7 +243,7 @@ This step refines the model by optimizing parameters for specific environmental 
   - MAOM/SOM ≥ 0.04 (`rate_ma < 0.04` triggers penalty)
   - LMWC/SOM ≤ 0.03 (`rate_lw > 0.03` triggers penalty)
   - MIC/SOM ≤ 0.03 (`rate_mc > 0.03` triggers penalty)
-- **Equilibrium**: Uses `stode` solver for steady-state; fallback to `ode` for 10,000 steps if needed
+- **Steady-State**: Uses `stode` solver for steady-state; fallback to `ode` for 10,000 steps if needed
 - **Parallel Processing**: Use `foreach` with `doParallel` for cluster-wise optimization (39-43 clusters)
 - **Penalty Handling**: Invalid parameters return penalty matrix with 100s for all C pool columns
 
@@ -258,7 +258,7 @@ For sub-scenarios 2 and 3, where steady-state could not be achieved using \text{
 
 ### 📋 Evaluation Instructions
 
-To evaluate the three calibration sub-scenarios, follow these steps using the R script /'d01_src/rangelands_calibration_ode.R':
+To evaluate the three calibration sub-scenarios, follow these steps using the R script 'd01_src/rangelands_calibration_cluster.R':
 
 #### 1. **Static Initialisation Scenario 1**
    - **Initialization**: Use uniform initial C fractions across all sites:
